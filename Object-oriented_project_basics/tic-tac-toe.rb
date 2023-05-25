@@ -61,6 +61,7 @@ class Game < Player
         @game_over = false
         puts "***** Game start! *****"
         assign_markers(@markers)
+        self.display_board(@board)
         self.rounds(@players)
         puts "Game over. Play again?"
     end
