@@ -1,4 +1,4 @@
-require './mm_player_updated'
+require './mm_player'
 
 class Game
 	
