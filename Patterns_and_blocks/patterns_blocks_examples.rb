@@ -88,3 +88,26 @@ In contrast, as you can see, select has two arguments specified |a, b|, on each 
 nested_array = [[1, 2], [3, 4], [5, 6]]
 nested_array.select {|a, b| a + b > 10 }
 # => [5, 6]
+
+
+Returning:
+
+Lambda calling an explicit return will return the value from the lambda block back to the caller.
+a_lambda = -> { return 1 }
+a_lambda.call
+# => 1
+
+A proc object, however, returns from the context in which it is called. If you are in the top level context (outside of a class or method), then you’ll get an error because you can’t return out of the very top level context, as there is no caller to return to.
+a_proc = Proc.new { return }
+a_proc.call
+# => localJumpError (unexpected return)
+
+Alternatively, if you return from a proc inside a method, the method is the context in which it was called and therefore it returns from the method before any of the other code below it is executed.
+def my_method
+    a_proc = Proc.new { return }
+    puts "this line will be printed"
+    a_proc.call
+    puts "this line is never reached"
+  end
+  my_method
+  #=> this line will be printed
